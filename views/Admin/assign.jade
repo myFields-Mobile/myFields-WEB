@@ -1,50 +1,13 @@
 extends ../layout
 
 block javascript
-    script(src='/javascripts/Controllers/adminInspectionAssignment.js')
 
 block content
     div(class='row')
         div(class='col-lg-12')
             h1(class='page-header')= title
-    div(ng-controller='AdminAssignController as ctrl')
-        div(class='row')
-            div(class='col-lg-12')
-                div(class='table-responsive')
-                    table(class='table', ng-show='ctrl.inspectionsLoaded && ctrl.usersLoaded')
-                        thead
-                            tr
-                                th ID
-                                th Field Name
-                                th Status
-                                th Active
-                                th Inspector
-                        tbody
-                            tr(ng-repeat='inspection in ctrl.inspections')
-                                td {{inspection.id}}
-                                td {{inspection.Field.name}}
-                                td {{ctrl.getStatus(inspection.accepted)}}
-                                td {{inspection.active}}
-                                td {{ctrl.getName(inspection.inspector_id)}}
-                                td
-                                    input(class='form-control', type='radio', ng-click='ctrl.selectedInspection = inspection.id')
-                div(class='row')
-                    div(class='col-lg-12')
-                        div(class='form-group')
-                            label Edit Selected Inspection
-                            div(class='row')
-                                div(class='col-xs-6')
-                                    select(id='user_select', name='user_select', ng-model='ctrl.selectedInspector', class='form-control')
-                                        option(value='') Select Inspector
-                                        option(ng-repeat='ins in ctrl.inspectors', value='{{ins.id}}' ) {{ins.firstName+" "+ins.lastName}}
-                                div(class='col-xs-6')
-                                    button(class='btn btn-block btn-success', ng-click='ctrl.assignInspector()', ng-disabled='ctrl.selectedInspection=="" || ctrl.selectedInspector == ""') Assign Inspector
-                                div(class='col-xs-6')
-                                    div(class='btn btn-block btn-success', ng-click='ctrl.accept()', ng-disabled='ctrl.selectedInspection==""') Accept
-                                div(class='col-xs-6')
-                                    div(class='btn btn-block btn-danger', ng-click='ctrl.decline()', ng-disabled='ctrl.selectedInspection==""') Decline
-                div(ng-show='ctrl.inspections.length == 0')
-                    br
-                    br
-                    br
-                    p(class='text-center') There are no active inspections.
+    div
+        div
+            div(class='row')
+              div(class='col-lg-12')
+                span create inspection.

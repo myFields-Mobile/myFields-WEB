@@ -103,8 +103,6 @@ router.post('/signup', function(req, res, next) {
   }
 });
 
-//todo rename the admin/list endpoint to something related to permissions
-
 /**
  * GET - Assign inspectors page
  */
@@ -116,7 +114,7 @@ router.get('/admin/assign', isAuthenticated, function(req, res, next) {
  * Get - List of inspections pages
  */
 router.get('/admin/list', isAuthenticated, function(req, res, next) {
-    res.render('Admin/list', {title: 'User Permissions', user: req.user.user });
+    res.render('Admin/list', {title: 'Assign Inspector', user: req.user.user });
 });
 
 /**
@@ -245,113 +243,6 @@ router.get('/boundary/create', isAuthenticated, function(req, res, next) {
 });
 
 /**
- * GET - Admin Get Users
- */
-
-router.get('/admin/users', isAuthenticated, function(req, res, next){
-    request.get(webServiceUrl + '/api/admin/users',
-        {
-            headers: {
-                'x-access-token': req.user.token
-            }
-        },
-        function(error, response, body) {
-            if(error) {
-                res.status(500).send(error);
-            } else {
-                res.send(body);
-            }
-        });
-});
-/**
- * GET -  Admin Get Types
- */
-router.get('/admin/types', isAuthenticated, function(req, res, next){
-    request.get(webServiceUrl + '/api/admin/types',
-        {
-            headers: {
-                'x-access-token': req.user.token
-            }
-        },
-        function(error, response, body) {
-            if(error) {
-                res.status(500).send(error);
-            } else {
-                res.send(body);
-            }
-        });
-});
-
-
-/**
- * removes selected usertype
- */
-
-router.post('/admin/:id(\\d+)/remove', isAuthenticated, function(req, res, next){
-    request.post(webServiceUrl + '/api/admin/'+req.params.id+'/remove',
-        {
-            headers: {
-                'x-access-token': req.user.token
-            },
-            json: {
-                title: req.body.title
-            }
-        },
-        function(error, response, body) {
-            if(error) {
-                res.status(500).send(error);
-            } else {
-                res.send(body);
-            }
-        });
-});
-
-/**
- * calls the api to add a type to a user
- */
-
-router.post('/admin/:id(\\d+)/add', isAuthenticated, function(req, res, next){
-
-    request.post(webServiceUrl + '/api/admin/'+req.params.id+'/add',
-        {
-            headers: {
-                'x-access-token': req.user.token
-            },
-            json: {
-                title: req.body.title
-            }
-        },
-        function(error, response, body) {
-            if(error) {
-                res.status(500).send(error);
-            } else {
-                res.send(body);
-            }
-        });
-});
-
-
-/**
- * GET -list all the users
- */
-
-router.get('/api/user/all', isAuthenticated, function(req, res, next) {
-    request.get(webServiceUrl + '/api/user/all',
-        {
-            headers: {
-                'x-access-token': req.user.token
-            }
-        },
-        function(error, response, body) {
-            if(error) {
-                res.status(500).send(error);
-            } else {
-                res.send(body);
-            }
-        });
-});
-
-/**
  * POST - Boundary create
  */
 router.post('/boundary/create', isAuthenticated, function(req, res, next) {
@@ -400,7 +291,7 @@ router.get('/api/boundary', isAuthenticated, function(req, res, next) {
         }
       });
 });
-//TODO figure out which of these routes ('/api/boundary/all','/api/boundary') needs to go.
+
 /**
  * GET - get active boundaries
  */
@@ -479,64 +370,6 @@ router.post('/inspection/create', isAuthenticated, function(req, res, next) {
 });
 
 /**
- * POST - assign inspections
- */
-router.post('/api/inspection/:id(\\d+)/assign', isAuthenticated, function(req, res, next) {
-    request.post(webServiceUrl + '/api/inspection/'+req.params.id+'/assign',
-        {
-            json: {
-                inspector_id: req.body.inspector_id
-            },
-            headers: {
-                'x-access-token': req.user.token
-            }
-        },
-        function(error, response, body) {
-            if(error) {
-                res.status(500).send(error);
-            } else {
-                res.send(body);
-            }
-        });
-});
-/**
- * GET - accept inspection
- */
-router.get('/api/inspection/:id(\\d+)/accept', isAuthenticated, function(req, res, next) {
-    request.get(webServiceUrl + '/api/inspection/' + req.params.id + "/accept",
-        {
-            headers: {
-                'x-access-token': req.user.token
-            }
-        },
-        function(error, response, body) {
-            if(error) {
-                res.status(500).send(error);
-            } else {
-                res.send(body);
-            }
-        });
-});
-
-/**
- * GET - decline inspection
- */
-router.get('/api/inspection/:id(\\d+)/decline', isAuthenticated, function(req, res, next) {
-    request.get(webServiceUrl + '/api/inspection/' + req.params.id + "/decline",
-        {
-            headers: {
-                'x-access-token': req.user.token
-            }
-        },
-        function(error, response, body) {
-            if(error) {
-                res.status(500).send(error);
-            } else {
-                res.send(body);
-            }
-        });
-});
-/**
  * GET - activate inspection
  */
 router.get('/api/inspection/:id(\\d+)/activate', isAuthenticated, function(req, res, next) {
@@ -612,24 +445,6 @@ router.get('/api/inspection/requested/all', isAuthenticated, function(req, res, 
         });
 });
 
-/**
- * GET - get all inspections
- */
-router.get('/api/inspection/all', isAuthenticated, function(req, res, next) {
-    request.get(webServiceUrl + '/api/inspection/all',
-        {
-            headers: {
-                'x-access-token': req.user.token
-            }
-        },
-        function(error, response, body) {
-            if(error) {
-                res.status(500).send(error);
-            } else {
-                res.send(body);
-            }
-        });
-});
 ///**
 // * GET - get active requested inspections
 // */

@@ -14,11 +14,14 @@ block content
                     table(class='table', ng-show='ctrl.fields.length > 0')
                         thead
                             tr
+                                th Image
                                 th Name
                                 th Created At
                                 th Select
                         tbody
                             tr(ng-repeat='field in ctrl.fields')
+                                td
+                                    img(ng-src='{{field.image}}', style='width:100%; max-width:100px;')
                                 td
                                     span {{field.name}}
                                 td

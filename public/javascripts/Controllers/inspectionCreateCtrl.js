@@ -26,4 +26,26 @@ inspectorApplication.controller('InspectionCreateController', function($scope, $
             console.error(error);
         });
     }
+
+    function formatImages(fields) {
+      fields.forEach(function(field) {
+
+        field.image = "https://maps.googleapis.com/maps/api/staticmap?&zoom=15&size=600x600&maptype=satellite&key=AIzaSyCCGAjXuCpxKwqWc6kgkmCAv-ge2QnrQ1o&sensor=false";
+
+        field.Boundary.boundary.coordinates.forEach(function(coordinates, index) {
+          var tempColor = "blue";
+          if(index != 0) {
+            tempColor = "red";
+          }
+
+          var tempPath = "&path=color:" + tempColor + "|weight:5|fillcolor:white";
+
+          coordinates.forEach(function(coordinate) {
+            tempPath += "|" + coordinate[0] + "," + coordinate[1];
+          });
+
+          field.image += tempPath;
+        });
+      });
+    }
 });

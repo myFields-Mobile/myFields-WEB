@@ -29,6 +29,9 @@ inspectorApplication.controller('BoundaryController', function($scope, $http) {
 
   function CreateEntireBoundary()
   {
+    console.log("Create Entire Boundary")
+    console.log(boundary.cutoutPoints);
+    debugger;
     $http.post('/boundary/create', {
       name: boundary.boundaryName,
       outerPoints: boundary.polygonPoints,
@@ -90,7 +93,6 @@ inspectorApplication.controller('BoundaryController', function($scope, $http) {
   }
 
   function Undo() {
-
     if(!boundary.outerBoundaryCreated)
     {
       if (boundary.polygonPoints.length == 0)
@@ -101,52 +103,37 @@ inspectorApplication.controller('BoundaryController', function($scope, $http) {
       boundary.polygonPoints.splice(lastIndex, 1);
       map.removeMarker(boundary.markers[lastIndex]);
       boundary.markers.splice(lastIndex, 1);
+
+
+
       DrawAllBoundaries();
     }
     else
     {
-      if (boundary.cutoutPoints[cutoutIndex] == undefined || boundary.cutoutPoints[cutoutIndex].length == 0) {
-        if (cutoutIndex == 0) {
-
-          boundary.outerBoundaryCreated = false;
-          //put the markers back in.
-          for(var i = 0; i < boundary.polygonPoints.length; i++)
-          {
-            var tempMarker = map.addMarker({
-              lat: boundary.polygonPoints[i][0],
-              lng: boundary.polygonPoints[i][1],
-              title: 'Marker'
-            });
-            boundary.markers.push(tempMarker);
-          }
-        }
-        else {
+      if (boundary.cutoutPoints[cutoutIndex].length == 0) {
+        if (cutoutIndex == 0)
+          return;
+        else
           cutoutIndex--;
-          for (var i = 0; i < boundary.cutoutPoints[cutoutIndex].length; i++) {
-            var tempMarker = map.addMarker({
-              lat: boundary.cutoutPoints[cutoutIndex][i][0],
-              lng: boundary.cutoutPoints[cutoutIndex][i][1],
-              title: 'Marker'
-            });
-            boundary.markers.push(tempMarker);
-          }
-        }
+        return;
       }
-      else
-      {
-        var lastIndex = boundary.cutoutPoints[cutoutIndex].length - 1;
-
-        boundary.cutoutPoints[cutoutIndex].splice(lastIndex, 1);
-        map.removeMarker(boundary.markers[lastIndex]);
-        boundary.markers.splice(lastIndex, 1);
-        //debugger;
-
-        boundary.canCreateCutout = (boundary.cutoutPoints[cutoutIndex].length > 2);
 
 
-        DrawAllBoundaries();
-      }
+      //debugger;
+      var lastIndex = boundary.cutoutPoints[cutoutIndex].length - 1;
+
+      boundary.cutoutPoints[cutoutIndex].splice(lastIndex, 1);
+      map.removeMarker(boundary.markers[lastIndex]);
+      boundary.markers.splice(lastIndex, 1);
+      //debugger;
+
+      boundary.canCreateCutout = (boundary.cutoutPoints[cutoutIndex].length > 2);
+
+
+      DrawAllBoundaries();
     }
+    //DrawPolygon();
+    //debugger;
   }
 
   function ClearAll() {
@@ -304,7 +291,7 @@ inspectorApplication.controller('BoundaryController', function($scope, $http) {
       div: '#Map',
       lat: position.coords.latitude,
       lng: position.coords.longitude,
-      mapTypeId: google.maps.MapTypeId.SATELLITE,
+      mapTypeId: google.maps.MapTypeId.TERRAIN,
       draggableCursor: 'crosshair',
 
       click: function (e) {

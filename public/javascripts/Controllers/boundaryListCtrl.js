@@ -77,15 +77,24 @@ inspectorApplication.controller('BoundaryListController', function($scope, $http
   }
 
   function formatBoundaries(boundaries) {
-
+    console.log("format boundaries");
 
     for(var x = 0; x < boundaries.length; x++) {
 
+
+      //boundaries[x].image = "";
+      //boundaries[x].image = "https://maps.googleapis.com/maps/api/staticmap?zoom=16&size=300x300&maptype=satellite&key=AIzaSyCCGAjXuCpxKwqWc6kgkmCAv-ge2QnrQ1o&sensor=false"
+      //     + "&path=color:red|weight:5|fillcolor:white|";
+
+      //boundaries[x].image += "|";
+      //boundaries[x].image += 0+","+0;
       var minX = 100000;
       var maxX = -100000;
       var minY = 100000;
       var maxY = -100000;
 
+      console.log("boudary: "+boundaries[x].name);
+      console.log(boundaries[x].boundary);
 
       boundaries[x].image = "";
       for(var y = 0; y < boundaries[x].boundary[0].length; y++) {
@@ -117,19 +126,25 @@ inspectorApplication.controller('BoundaryListController', function($scope, $http
 
       }
 
-
       var zoom = Math.max((maxX-minX),(maxY-minY))/.01;
+      //var zoom = "16";
+      //console.log(maxX-minX);
+      //console.log(zoom);
+      console.log(boundaries[x].image);
       boundaries[x].image = "https://maps.googleapis.com/maps/api/staticmap?zoom="+zoom+"&size=300x300&maptype=satellite&key=AIzaSyCCGAjXuCpxKwqWc6kgkmCAv-ge2QnrQ1o&sensor=false"
           + "&path=color:blue|weight:5|fillcolor:white|" + boundaries[x].image;
 
-
+      //debugger;
+      console.log("test ");
+      console.log(boundaries[x].boundary);
+      //debugger;
       if(boundaries[x].boundary.length > 1) {
-
+        //debugger;
         for (var z = 1; z < boundaries[x].boundary.length; z++) {
-
+          //debugger;
           var v = "&path=color:red|weight:5|fillcolor:white|";
           for (var c = 0; c < boundaries[x].boundary[z].length; c++) {
-
+            //debugger;
             if (c != 0)
               v += "|";
 
@@ -139,6 +154,12 @@ inspectorApplication.controller('BoundaryListController', function($scope, $http
           boundaries[x].image+=v;
         }
       }
+
+
+
+      console.log("image string for "+ boundaries[x].name+ ": "+boundaries[x].image);
+
+      debugger;
 
 
     }
