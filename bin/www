@@ -11,10 +11,9 @@ var http = require('http');
 /**
  * Get port from environment and store in Express.
  */
-
-var port = normalizePort(process.env.PORT || '4000');
 var server_port = process.env.PORT || 4000;
 var server_ip_address = '127.0.0.1';
+var port = normalizePort(process.env.PORT || '4000');
 app.set('port', port);
 
 /**
