@@ -1,0 +1,59 @@
+extends ../layout
+block javascript
+    script(src='/javascripts/Controllers/boundaryCreateCtrl.js')
+
+block content
+  div(class='row')
+    div(class='col-lg-12')
+      h1(class='page-header')= title
+  div(ng-controller='BoundaryController as boundary')
+    div(class='row')
+        div(class='col-lg-12')
+            div(class='panel panel-default')
+                div(class='panel-heading') Boundary Information
+                div(class='panel-body')
+                    div(class='row')
+                        div(class='col-lg-12')
+                          div(class='form-group')
+                            label Boundary Name
+                            input(class='form-control', type='text', ng-model='boundary.boundaryName')
+                    div(class='row')
+                      div(class='col-lg-12')
+                        div(class='form-group')
+                          label Select Boundary Points
+                          p Click the map along the boundaries of your field.  You must select at least three points to complete a boundary.
+                          div(id='Map', style='width:100%; height:400px; text-align:center;')
+                              h3 Loading Map...
+                    div
+                      br
+                    div(class='row')
+                      div(class='col-xs-6')
+                          div(class='btn btn-warning btn-block', ng-disabled='boundary.polygonPoints.length == 0', ng-click='boundary.Undo()') Undo
+                      div(class='col-xs-6')
+                          div(class='btn btn-danger btn-block', ng-disabled='boundary.polygonPoints.length == 0', ng-click='boundary.ClearAll()') Clear All
+                    div
+                      br
+                    div(class='row', ng-show='boundary.polygonPoints.length > 0 && false')
+                      div(class='col-lg-12')
+                        div(class='table-responsive')
+                          table(class='table')
+                            thead
+                              tr
+                                th #
+                                th Lat
+                                th Lng
+                                th
+                            tbody
+                              tr(ng-repeat='point in boundary.polygonPoints')
+                                td {{$index + 1}}
+                                td {{point[0]}}
+                                td {{point[1]}}
+                                td
+                                  a(href='', ng-click='boundary.DeletePoint($index)') Delete
+                    div(class='row')
+                      div(class='col-lg-12')
+                        button(class='btn btn-block btn-success', ng-show='!boundary.outerBoundaryCreated', ng-click='boundary.CreateOuterBoundary()', ng-disabled='boundary.polygonPoints.length < 3 || boundary.boundaryName.length == 0') Create Outer Boundary
+                          button(class='btn btn-block btn-warning',ng-show='boundary.outerBoundaryCreated', ng-disabled='!boundary.canCreateCutout',ng-click='boundary.CreateCutout()') Create Cutout
+                            button(class='btn btn-block btn-success',ng-show='boundary.outerBoundaryCreated', ng-click='boundary.CreateEntireBoundary()') Finish Boundary
+                        button(class='btn btn-block btn-success', ng-show='boundary.creatingBoundary', ng-disabled='true') Creating Boundary...
+

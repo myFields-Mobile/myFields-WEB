@@ -1,0 +1,91 @@
+block javascript
+  script(src='/javascripts/Controllers/layoutControl.js')
+
+
+doctype html
+html(lang='en' ng-app='MyFieldsApp')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width', initial-scale='1')
+    meta(name='description', content='MyFields Inspections')
+    meta(name='author', content='MyFields LLC')
+
+    title= title
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/metisMenu.min.css')
+    link(rel='stylesheet', href='/stylesheets/sb-admin-2.css')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+
+  body(ng-cloak)
+
+      div(id='wrapper')
+        nav(class='navbar navbar-default navbar-static-top', role='navigation', style='margin-bottom:0')
+          div(class='navbar-header')
+            button(type='button', class='navbar-toggle', data-toggle='collapse', data-target='.navbar-collapse')
+              span(class='sr-only') Toggle Navigation
+              span(class='icon-bar')
+              span(class='icon-bar')
+              span(class='icon-bar')
+            a(class='navbar-brand' href='/') MyFields Inspections
+
+          div(class='navbar-default sidebar' role='navigation')
+            div(class='sidebar-nav navbar-collapse')
+
+              ul(class='nav', id='side-menu')
+                li
+                  a(href='/') Home
+                li
+                  a(href='#') Boundaries
+                    span(class='fa arrow')
+                  ul(class='nav nav-second-level collapse', aria-expanded='false')
+                    li
+                      a(href='/boundary/list') List
+                    li
+                      a(href='/boundary/create') Create
+                li
+                  a(href='#') Fields
+                    span(class='fa arrow')
+                  ul(class = 'nav nav-second-level collapse', aria-expanded='false')
+                    li
+                      a(href='/field/list') List
+                    li
+                      a(href='/field/create') Create
+                li
+                  a(href='#') Inspections
+                    span(class='fa arrow')
+                  ul(class='nav nav-second-level collapse', aria-expanded='false')
+                    li
+                      a(href='/inspection/list') List
+                    li
+                      a(href='/inspection/create') Create
+                if user && user.isAdmin
+                  li
+                    a(href='#') Admins
+                      span(class='fa arrow')
+                    ul(class='nav nav-second-level collapse', aria-expanded='false')
+                      li
+                        a(href='/admin/assign') Assign Inspectors
+                      li
+                        a(href='/admin/list') User Permissions
+                li
+                  a(href='/account')
+                    span  Account
+                li
+                  a(href='/logout')
+                    span  Logout
+
+        div(id='page-wrapper')
+          div(class='container-fluid')
+            block content
+
+      script(src='/javascripts/jquery.min.js')
+      script(src='/javascripts/bootstrap.min.js')
+      script(src='/javascripts/metisMenu.min.js')
+      script(src='/javascripts/sb-admin-2.js')
+      script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js')
+      script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyDS1zKlsiY6wi2rksaQj3tx2rB4sjb2cgg&libraries=geometry')
+      script(src='/javascripts/gmaps.js')
+      script(src='/javascripts/Controllers/script.js')
+      block javascript

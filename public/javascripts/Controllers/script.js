@@ -1,0 +1,1 @@
+var inspectorApplication = angular.module('MyFieldsApp', []);

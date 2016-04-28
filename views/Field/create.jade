@@ -1,0 +1,74 @@
+extends ../layout
+
+block javascript
+   script(src='/javascripts/Controllers/boundaryListCtrl.js')
+   script(src='/javascripts/Controllers/fieldController.js')
+
+block content
+   div(class='row')
+      div(class='col-lg-12')
+         h1(class='page-header')= title
+      div(ng-controller='BoundaryListController as ctrl')
+            div(class='row')
+               div(class='col-lg-12')
+                  div(ng-controller='FieldController as fieldCtrl')
+                     div(class='panel panel-default')
+                        div(class='panel-heading') Field Information
+                        div(class='panel-body')
+                           div(class='row')
+                              div(class='col-lg-12')
+                                 div(class='form-group')
+                                    label Field Name
+                                    input(class='form-control', type='text', ng-model='fieldCtrl.fieldName')
+                           div(class='row')
+                              div(class='col-lg-12')
+                                 table(class='table', ng-show='ctrl.boundaries.length > 0 && !ctrl.isLoading')
+                                    thead
+                                       tr
+                                          th Image
+                                          th Name
+                                          th Created At
+                                          th Select
+                                    tbody
+                                       tr(ng-repeat='boundary in ctrl.boundaries')
+                                          td
+                                             img(ng-src='{{boundary.image}}', style='width:100%; max-width:100px;')
+                                          td {{boundary.name}}
+                                          td {{boundary.createdAt}}
+                                          td
+                                             input(class='form-control', name='boundary_select',type='radio',ng-click='fieldCtrl.boundary = boundary.id; fieldCtrl.createBoundary = false')
+                                 div(ng-show='ctrl.boundaries.length == 0')
+                                    br
+                                    br
+                                    br
+                                    p(class='text-center') There are no active boundaries.
+                                 div(ng-show='ctrl.isLoading')
+                                    br
+                                    br
+                                    br
+                                    p(class='text-center') Loading boundaries...
+                           div(class='row')
+                              div(class='col-lg-12')
+                                 div(class='form-group')
+                                    label Tillage
+                                    select(id='tillage_select', name='tillage_select', ng-model='fieldCtrl.tillage', class='form-control')
+                                       option(value='') Select Tillage
+                                       option(ng-repeat='til in fieldCtrl.tillages', value='{{til.id}}') {{til.name}}
+                           div(class='row')
+                              div(class='col-lg-12')
+                                 div(class='form-group')
+                                    label Irrigation
+                                    select(id='irrigation_select', name='irrigation_select', ng-model='fieldCtrl.irrigation', class='form-control')
+                                       option(value='') Select Irrigation
+                                       option(ng-repeat='irr in fieldCtrl.irrigations', value='{{irr.id}}') {{irr.name}}
+                           div(class='row')
+                              div(class='col-lg-12')
+                                 div(class='form-group')
+                                    label Crop
+                                    select(id='crop_select', name='crop_select', ng-model='fieldCtrl.crop', class='form-control')
+                                       option(value='') Select Crop
+                                       option(ng-repeat='c in fieldCtrl.crops', value='{{c.id}}' ) {{c.name}}
+                           div(class='row')
+                              div(class='col-lg-12')
+                                 button(class='btn btn-block btn-success', ng-show='!fieldCtrl.processing', ng-click='fieldCtrl.CreateField()', ng-disabled='fieldCtrl.fieldName.length == 0 || fieldCtrl.crop==""|| fieldCtrl.irrigation==""|| fieldCtrl.tillage==""|| fieldCtrl.boundary=="" ') Create Field
+                                 button(class='btn btn-block btn-success', ng-show='fieldCtrl.processing', ng-disabled='true') Creating Field...

@@ -1,0 +1,41 @@
+extends ../layout
+
+block javascript
+    script(src='/javascripts/Controllers/inspectionListCtrl.js')
+
+block content
+    div(class='row')
+        div(class='col-lg-12')
+            h1(class='page-header')= title
+    div(ng-controller='inspectionListCtrl as ctrl')
+        div(class='row')
+            div(class='col-lg-12')
+                div(class='btn btn-default pull-right', ng-click='ctrl.ShowDisabled()', ng-show='!ctrl.showingDisabled') Show Disabled
+                div(class='btn btn-default pull-right', ng-click='ctrl.ShowEnabled()', ng-show='ctrl.showingDisabled') Hide Disabled
+                table(class='table', ng-show='ctrl.inspections.length > 0 && !ctrl.isLoading')
+                    thead
+                        tr
+                            th Field Name
+                            th Created At
+                            th Accepted
+                            th Active
+                    tbody
+                        tr(ng-repeat='inspection in ctrl.inspections track by $index')
+                            td {{inspection.Field.name}}
+                            td {{inspection.createdAt}}
+                            td
+                                input(class='form-control', type='checkbox', ng-model='inspection.accepted', disabled)
+                            td
+                                input(class='form-control', type='checkbox', ng-model='inspection.active', ng-click='ctrl.ToggleActive(inspection)')
+                div(ng-show='ctrl.inspections.length == 0')
+                    br
+                    br
+                    br
+                    p(class='text-center') There are no active inspections.
+                div(ng-show='ctrl.isLoading')
+                    br
+                    br
+                    br
+                    p(class='text-center') Loading inspections...
+
+

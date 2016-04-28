@@ -1,0 +1,35 @@
+extends ../layout
+
+block javascript
+    script(src='/javascripts/Controllers/inspectionCreateCtrl.js')
+
+block content
+    div(class='row')
+        div(class='col-lg-12')
+            h1(class='page-header')= title
+    div
+        div(ng-controller="InspectionCreateController as ctrl")
+            div(class='row')
+                div(class='col-lg-12')
+                    table(class='table', ng-show='ctrl.fields.length > 0')
+                        thead
+                            tr
+                                th Name
+                                th Created At
+                                th Select
+                        tbody
+                            tr(ng-repeat='field in ctrl.fields')
+                                td
+                                    span {{field.name}}
+                                td
+                                    span {{field.createdAt}}
+                                td
+                                    input(class='form-control', name='boundary_select',type='radio',ng-click='ctrl.field = field;')
+                    div(ng-show='ctrl.boundaries.length == 0')
+                        br
+                        br
+                        br
+                        p(class='text-center') There are no active fields.
+                    div(class='row')
+                        div(class='col-lg-12')
+                            button(class='btn btn-block btn-success', ng-click='ctrl.CreateInspection()', ng-disabled='ctrl.field==null') Request Inspection

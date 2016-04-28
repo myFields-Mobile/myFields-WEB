@@ -1,0 +1,42 @@
+extends ../layout
+
+block javascript
+    script(src='/javascripts/Controllers/listFieldController.js')
+
+block content
+    div(class='row')
+        div(class='col-lg-12')
+            h1(class='page-header')= title
+    div(ng-controller='listFieldController as fieldCtrl')
+            div(class='row')
+                div(class='btn btn-default pull-right', ng-click='fieldCtrl.ShowDisabled()', ng-show='!fieldCtrl.showingDisabled') Show Disabled
+                div(class='btn btn-default pull-right', ng-click='fieldCtrl.HideDisabled()', ng-show='fieldCtrl.showingDisabled') Hide Disabled
+                div(class='col-lg-12')
+                    div(class='table-responsive')
+                        table(class='table', ng-show='fieldCtrl.boundaryLoaded')
+                            thead
+                                tr
+                                    th ID
+                                    th Name
+                                    th Boundary
+                                    th Crop
+                                    th Irrigation
+                                    th Tillage
+                                    th Active
+                            tbody
+                                tr(ng-repeat='field in fieldCtrl.fields')
+                                    td {{field.id}}
+                                    td {{field.name}}
+                                    td
+                                        img(ng-src='{{fieldCtrl.boundaries[field.BoundaryId-1].image}}', style='width:100%; max-width:200px;')
+                                        div(ng-show='!fieldCtrl.boundaries[field.BoundaryId-1].active') This boundary is inactive
+                                    td {{fieldCtrl.crops[field.CropId]}}
+                                    td {{fieldCtrl.irrigations[field.IrrigationId]}}
+                                    td {{fieldCtrl.tillages[field.TillageId]}}
+                                    td
+                                        input(class='form-control', type='checkbox', ng-model='field.active', ng-click='fieldCtrl.toggleActive(field)')
+                        div(ng-show='fieldCtrl.fields.length == 0')
+                            br
+                            br
+                            br
+                            p(class='text-center') There are no active fields.

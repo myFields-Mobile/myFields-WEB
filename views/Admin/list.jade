@@ -1,0 +1,53 @@
+extends ../layout
+
+block javascript
+    script(src='/javascripts/Controllers/adminListCtrl.js')
+
+
+block content
+    div(class='row')
+        div(class='col-lg-12')
+            h1(class='page-header')= title
+    div
+        div(ng-controller='adminListCtrl as ctrl')
+            div(class='row')
+                div(class='col-lg-12')
+                    h3 Current Users.
+                div(ng-show='ctrl.showEdit')
+                    span {{ctrl.currentUser.firstName}}
+                    table(class = 'table')
+                        thead
+                            tr
+                                th Types
+                        tbody
+                            tr(ng-repeat='type in ctrl.currentUser.UserTypes')
+                             td {{type.title}}
+                             td
+                                button(class='btn pull-right btn-block btn-danger',  ng-click='ctrl.remove(type)', style='width: 200px') Remove Permission
+
+                    div(class='row')
+                        div(class='col-xs-6')
+                            select(id='title_select', name='title_select', ng-model='ctrl.type', class='form-control')
+                                option(value='') Select Type
+                                //option(value='ctrl.typestest[1].id') {{ctrl.typestest[1].name}}
+                                option(ng-repeat='t in ctrl.types', value='{{t.title}}' ) {{t.title}}
+                        div(class='col-xs-6')
+                            button(class='btn btn-block btn-success',  ng-click='ctrl.add(ctrl.type)') Add Permission
+            table(class = 'table')
+                thead
+                     tr
+                        th First Name
+                        th Last Name
+                        th Email
+                        th Type
+                tbody
+                    tr(ng-repeat='user in ctrl.users')
+                     td {{user.firstName}}
+                     td {{user.lastName}}
+                     td {{user.email}}
+                     td
+                        button(class='btn btn-block btn-success',  ng-click='ctrl.selectUser(user)') Edit
+                        table(class = 'table')
+                            tbody
+                                tr(ng-repeat='types in user.UserTypes')
+                                 td {{types.title}}
